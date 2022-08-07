@@ -26,7 +26,7 @@ DROP TABLE IF EXISTS `authentification`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `authentification` (
   `matricule` int NOT NULL,
-  `password` varchar(45) DEFAULT NULL,
+  `password` varchar(255) NOT NULL,
   PRIMARY KEY (`matricule`),
   CONSTRAINT `FK_employe_matricule_auth` FOREIGN KEY (`matricule`) REFERENCES `employe` (`matricule`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -38,6 +38,7 @@ CREATE TABLE `authentification` (
 
 LOCK TABLES `authentification` WRITE;
 /*!40000 ALTER TABLE `authentification` DISABLE KEYS */;
+INSERT INTO `authentification` VALUES (1,'{noop}1'),(2,'{noop}2'),(3,'{noop}3');
 /*!40000 ALTER TABLE `authentification` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -49,7 +50,7 @@ DROP TABLE IF EXISTS `conge`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `conge` (
-  `id` double NOT NULL,
+  `id` int NOT NULL,
   `matricle` int DEFAULT NULL,
   `date_demande` datetime DEFAULT NULL,
   `date_debut` date DEFAULT NULL,
@@ -79,21 +80,21 @@ DROP TABLE IF EXISTS `employe`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `employe` (
   `matricule` int NOT NULL,
-  `nom` varchar(45) DEFAULT NULL,
-  `prenom` varchar(45) DEFAULT NULL,
-  `email` varchar(45) DEFAULT NULL,
+  `nom` varchar(45) NOT NULL,
+  `prenom` varchar(45) NOT NULL,
+  `email` varchar(45) NOT NULL,
   `tel` varchar(20) DEFAULT NULL,
   `adresse` varchar(45) DEFAULT NULL,
   `date_naissance` date DEFAULT NULL,
-  `fonction` varchar(45) DEFAULT NULL,
+  `fonction` varchar(45) NOT NULL,
   `num_cin` int DEFAULT NULL,
   `num_cnss` int DEFAULT NULL,
   `matricule_responsable` int DEFAULT NULL,
   PRIMARY KEY (`matricule`),
   UNIQUE KEY `matricule_UNIQUE` (`matricule`),
+  UNIQUE KEY `email_UNIQUE` (`email`),
   UNIQUE KEY `numCin_UNIQUE` (`num_cin`),
   UNIQUE KEY `numCnss_UNIQUE` (`num_cnss`),
-  UNIQUE KEY `email_UNIQUE` (`email`),
   KEY `FK_employe_employe_idx` (`matricule_responsable`),
   CONSTRAINT `FK_employe_employe` FOREIGN KEY (`matricule_responsable`) REFERENCES `employe` (`matricule`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -105,7 +106,7 @@ CREATE TABLE `employe` (
 
 LOCK TABLES `employe` WRITE;
 /*!40000 ALTER TABLE `employe` DISABLE KEYS */;
-INSERT INTO `employe` VALUES (33,'ttyt','gg',NULL,NULL,'ghjj','2001-10-10',NULL,444,444,NULL),(1001,'samir','samir',NULL,NULL,'mmm','2001-01-15','cc',6,17,NULL),(1004,'ramzi','ramzi',NULL,NULL,'mm','2000-01-01','ou',3,10,NULL),(2011,'jlailia','ali',NULL,NULL,'ccc','2001-02-01','c',5,12,NULL),(7777,'aaa','aaa',NULL,NULL,'7777','2001-10-10',NULL,7777,7777,NULL);
+INSERT INTO `employe` VALUES (1,'Jlailia','Ali','email1',NULL,'a','2001-02-01','DIRECTEUR',1,1,NULL),(2,'Dallali','Ramzi','email2',NULL,'a','2000-01-01','CADRE',2,2,1),(3,'Tlijani','Samir','email3',NULL,'a','2001-01-15','OUVRIER',3,3,1),(4,'Nom1','Prénom1','email4',NULL,'a','2001-10-10','OUVRIER',4,4,2),(5,'Nom2','Prénom2','email5',NULL,'a','2001-10-10','OUVRIER',5,5,3),(33,'aaa','aaa','aaa@aaa.com','','',NULL,'OUVRIER',NULL,NULL,2);
 /*!40000 ALTER TABLE `employe` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -181,4 +182,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-08-03 16:29:41
+-- Dump completed on 2022-08-07 12:17:38
